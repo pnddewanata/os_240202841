@@ -6,8 +6,8 @@ Berikut adalah laporan akhir dengan gaya **bahasa manusia** tanpa mengubah isi t
 
 **Mata Kuliah**: Sistem Operasi
 **Semester**: Genap / Tahun Ajaran 2024–2025
-**Nama**: Radika Rismawati Tri Prasaja
-**NIM**: 240202905
+**Nama**: Muhammad Pandu Dewanata Yaseh Hidayat
+**NIM**: 240202841
 **Modul yang Dikerjakan**:
 
 # 🧪 Modul 2 — Penjadwalan CPU Lanjutan (Priority Scheduling Non-Preemptive)
