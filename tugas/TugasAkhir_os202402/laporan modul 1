@@ -1,0 +1,71 @@
+
+---
+
+# 📝 Laporan Tugas Akhir
+**Mata Kuliah**: Sistem Operasi
+**Semester**: Genap / Tahun Ajaran 2024–2025
+**Nama**: Radika Rismawati Tri Prasaja
+**NIM**: 240202905
+**Modul yang Dikerjakan**:
+`Modul 1 – System Call dan Instrumentasi Kernel`
+
+---
+
+# 📌 Deskripsi Tugas
+Pada modul ini, saya diminta untuk menambahkan dua system call baru di dalam sistem operasi **xv6**, yaitu:
+1. `getpinfo()` – untuk melihat informasi proses yang sedang aktif di sistem, seperti PID, jumlah memori yang digunakan, dan nama prosesnya.
+2. `getReadCount()` – untuk menghitung berapa kali system call `read()` telah dipanggil sejak sistem dinyalakan.
+
+---
+
+# 🛠️ Cara Saya Mengerjakannya
+Agar kedua system call tadi bisa digunakan, saya melakukan beberapa modifikasi di kode xv6:
+* Menambahkan kode untuk `sys_getpinfo()` di file `sysproc.c`, dan `sys_getReadCount()` di `sysfile.c`.
+* Menambahkan deklarasi syscall baru di beberapa file penting seperti:
+  * `syscall.h` (buat nomor syscall-nya)
+  * `user.h` (biar bisa dipanggil dari user-space)
+  * `usys.S` (pakai makro SYSCALL)
+* Saya juga membuat struktur baru bernama `struct pinfo` di file `proc.h` buat nampung info proses.
+* Untuk menghitung berapa kali `read()` dipanggil, saya buat variabel global `readcount`.
+* Supaya proses aman saat akses ke daftar proses (`ptable`), saya pakai `spinlock`.
+* Terakhir, saya bikin dua program uji:
+  * `ptest.c` untuk menampilkan info proses (pakai `getpinfo()`)
+  * `rtest.c` untuk menunjukkan nilai `readcount` sebelum dan sesudah baca input (pakai `getReadCount()`)
+
+---
+
+# ✅ Hasil Pengujian
+Saya uji dua program tersebut di dalam shell xv6:
+**Hasil program `ptest`:**
+```
+PID     MEM     NAME
+1       12288   init
+2       16384   sh
+3       12288   ptest
+```
+**Hasil program `rtest`:**
+```
+Read Count Sebelum: 12
+hello
+Read Count Setelah: 13
+
+---
+
+# ⚠️ Kendala yang Saya Temui
+Selama mengerjakan modul ini, saya sempat menemui beberapa masalah:
+* Awalnya program error karena saya lupa menambahkan `#include "spinlock.h"` di `sysproc.c`.
+  ✅ Solusinya: tinggal tambahkan include-nya.
+* Saat mau akses `ptable` di `sysproc.c`, muncul error.
+  ✅ Solusinya: saya deklarasikan ulang `ptable` sebagai `extern` di bagian atas file.
+* Di `sysfile.c`, variabel `readcount` nggak dikenali.
+  ✅ Solusinya: saya tambahkan `extern int readcount;` di bagian atas fungsi `sys_read`.
+
+---
+
+# 📚 Sumber Referensi
+* Buku referensi resmi xv6 dari MIT:
+  [https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf](https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf)
+* Kode xv6-public di GitHub:
+  [https://github.com/mit-pdos/xv6-public](https://github.com/mit-pdos/xv6-public)
+
+
